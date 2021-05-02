@@ -1,0 +1,9 @@
+file:///C:/Users/Gabriel%20Paulino/Downloads/Documents/acordesmusicaisinformacoesespectrais.pdf
+file:///C:/Users/Gabriel%20Paulino/Downloads/Documents/2015_JosePedrodeSantanaNeto.pdf
+
+https://www.filipeflop.com/universidade/kit-maker-arduino/projeto-11-do-re-mi/
+https://medium.com/@raullesteves/notas-musicais-no-buzzer-do-arduino-1fea7813ba6e
+https://medium.com/@cafelouco/usando-a-transformada-de-fourier-para-construir-um-visualizador-de-m%C3%BAsica-com-python-e-ardu%C3%ADno-57c98e723cdc
+https://realpython.com/lessons/playing-and-recording-sound-python-overview/
+https://medium.com/@cafelouco/usando-a-transformada-de-fourier-para-construir-um-visualizador-de-m%C3%BAsica-com-python-
+http://excript.com/python/potenciacao-radiciacao-python.htmle-ardu%C3%ADno-57c98e723cdc
