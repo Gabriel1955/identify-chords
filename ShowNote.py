@@ -12,13 +12,12 @@ time.sleep(1)
 # clear = lambda: os.system('cls')
 np.set_printoptions(suppress=True) # don't use scientific notation
 
-CHUNK = 512 # number of data points to read at a time
+CHUNK = 1024 # number of data points to read at a time
 RATE = 44100 # time resolution of the recording device (Hz)
 WIDTH = 2
 
 p=pyaudio.PyAudio() # start the PyAudio class
-print(p.get_default_input_device_info())
-stream=p.open(format=p.get_format_from_width(WIDTH),channels=2,rate=RATE,input=True,
+stream=p.open(format=p.get_format_from_width(WIDTH),channels=1,rate=RATE,input=True,
               frames_per_buffer=CHUNK) #uses default input 
               
 while True:   
@@ -31,19 +30,12 @@ while True:
 
   E5 = 100000
   limitFFT = max([np.max(fft)/90, 1.0* E5])
-  limitFreq = 700
 
   freqsPeak = freq[np.where(fft>=limitFFT)]
   fftsPeak = fft[np.where(fft>=limitFFT)]
-
-  fftsPeak = fftsPeak[np.where(freqsPeak > 80)]
-  freqsPeak = freqsPeak[np.where(freqsPeak > 80)]
-
-  fftsPeak = fftsPeak[np.where(freqsPeak < 700)]
-  freqsPeak = freqsPeak[np.where(freqsPeak < 700)]
   
   if(len(freqsPeak) > 0):
-    # freqsPeak, fftsPeak = getPivots(freqsPeak, fftsPeak)
+    freqsPeak, fftsPeak = getPivots(freqsPeak, fftsPeak)
     # getPivots(freqsPeak, fftsPeak)
     notes= list(dict.fromkeys(map(identifyNote, sorted(freqsPeak))))
     if len(notes) > 0:
@@ -53,8 +45,7 @@ while True:
       print(freqsPeak)
       print("Amplitude/100K")
       print(fftsPeak)
-      clear()
-
+      # clear()
 
 stream.stop_stream()
 stream.close()

@@ -1,0 +1,7 @@
+1 capturar audio
+2 tranformar dados (amplitude x tempo => frequencia x amplitude x tempo)
+3 separar frequencias de pico
+4 identificar frequencias reais
+5 transformar frequencias em notas
+6 transformar notas em acordes
+7 exebir acordes em tempo real
