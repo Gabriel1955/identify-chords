@@ -6,6 +6,7 @@ from tkinter import TclError
 import struct
 from Music import identifyNote
 from MusicalTheory import getPivots
+from FrequencyMethods import getRealFrequency
 # import os
 
 time.sleep(1)
@@ -28,25 +29,25 @@ while True:
   freq = np.fft.fftfreq(CHUNK,1.0/RATE)
   freq = freq[:int(len(freq)/2)] # keep only first half
 
-  E5 = 100000
-  limitFFT = max([np.max(fft)/90, 1.0* E5])
+  E5 = 10000
+  limitFFT = max([np.max(fft)/90, 3.0* E5])
 
   freqsPeak = freq[np.where(fft>=limitFFT)]
   fftsPeak = fft[np.where(fft>=limitFFT)]
   
   if(len(freqsPeak) > 0):
-    freqsPeak, fftsPeak = getPivots(freqsPeak, fftsPeak)
+    # freqsPeak, fftsPeak = getPivots(freqsPeak, fftsPeak)
     # getPivots(freqsPeak, fftsPeak)
     notes= list(dict.fromkeys(map(identifyNote, sorted(freqsPeak))))
     if len(notes) > 0:
-      print("Notes")
-      print(notes)
-      print("Frequencies")
+      # print("Notes")
+      # print(notes)
+      # print("Frequencies")
       print(freqsPeak)
-      print("Amplitude/100K")
+      # print("Amplitude/100K")
       print(fftsPeak)
-      # clear()
-
+      print("%.4f" % getRealFrequency(freqsPeak,fftsPeak))
+      print('______________________________________________________________')
 stream.stop_stream()
 stream.close()
 p.terminate()
