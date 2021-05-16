@@ -14,7 +14,7 @@ time.sleep(1)
 np.set_printoptions(suppress=True) # don't use scientific notation
 
 CHUNK = 1024 # number of data points to read at a time
-RATE = 2000 # time resolution of the recording device (Hz)
+RATE = 1400 # time resolution of the recording device (Hz)
 WIDTH = 2
 
 p=pyaudio.PyAudio() # start the PyAudio class
@@ -28,6 +28,8 @@ while True:
   fft = fft[:int(len(fft)/2)] # keep only first half
   freq = np.fft.fftfreq(CHUNK,1.0/RATE)
   freq = freq[:int(len(freq)/2)] # keep only first half
+  # print(len(freq))
+  # print(freq)
   E5 = 10000
   limitFFT = max([np.max(fft)/90, 3.0* E5])
   limitFFT = np.max(fft) * 0.3
@@ -36,8 +38,26 @@ while True:
   fftsPeak = fft[np.where(fft>=limitFFT)]
   
   if(len(freqsPeak) > 0):
-    print(len(freqsPeak))
-    print("%.4f" % getRealFrequency(freqsPeak,fftsPeak))
+    # freqsPeak, fftsPeak = getPivots(freqsPeak, fftsPeak)
+    # getPivots(freqsPeak, fftsPeak)
+    # notes= list(dict.fromkeys(map(identifyNote, sorted(freqsPeak))))
+    # if len(notes) > 0:
+      # print("Notes")
+      # print(notes)
+      # print("Frequencies")
+    print(freqsPeak)
+      # print("Amplitude/100K")1.0216
+    print(fftsPeak)
+    # print(len(freqsPeak))
+    # print("%.4f" % getRealFrequency(freqsPeak,fftsPeak))
+    timeCount = 10
+    stream.stop_stream()
+    while timeCount > 0:
+      time.sleep(1)
+      print(str(timeCount) + " Segundos")
+      timeCount = timeCount - 1
+    stream=p.open(format=p.get_format_from_width(WIDTH),channels=1,rate=RATE,input=True,
+              frames_per_buffer=CHUNK) #uses default input 
     print('______________________________________________________________')
 stream.stop_stream()
 stream.close()
