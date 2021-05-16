@@ -1,12 +1,6 @@
 import math
 
-def identify8(freq):
-  if freq < 16.352:
-    return 0
-  return round(math.log(round(freq/16.352),2))
-
-
-def identifyNote(freq):
+def getNotes0():
   C0 = 16.352
   Db0 = 17.324
   D0 = 18.354
@@ -19,10 +13,27 @@ def identifyNote(freq):
   A0 = 27.500
   Bb0 = 29.135
   B0 = 30.868
-  notesName= ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"]
-  # notesName= ["C","D","E","F","G","A","B"]
-  notes0 = [C0,Db0,D0,Eb0,E0,F0,Gb0,G0,Ab0,A0,Bb0,B0]
-  # notes0 = [C0,D0,E0,F0,G0,A0,B0]
+  return  [C0,Db0,D0,Eb0,E0,F0,Gb0,G0,Ab0,A0,Bb0,B0]
+
+def identify8(freq):
+  if freq < 16.352:
+    return 0
+  return round(math.log(round(freq/16.352),2))
+
+
+def MinDiffBetweenTwoNotesByFreq(freq):
+  octave = identify8(freq)
+  freq0 = freq / 2 **(octave-1)
+  # aproximação linear das diferenças entre cada frequencia em oitava zero
+  # 0,0561*Freq0 + 0,001 = dif
+  DiffFundamental = 0.0561*freq0 + 0.001
+  return DiffFundamental * 2** (octave-1)
+
+print(MinDiffBetweenTwoNotesByFreq(197))
+
+def identifyNote(freq):
+  notes0 = getNotes0()
+  notesName= ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
   octave = identify8(freq)
   if octave == 0:
     return '0'
@@ -39,14 +50,6 @@ def identifyNote(freq):
     if(difMult < dif):
       dif = difMult
       indexResult = index
-    # print(notesName[index])
-    # print(note)
-    # print(freq)
-    # print(mult)
-    # print(difMult)
     index = index +1
 
-
   return notesName[indexResult]
-
-# print(identifyNote(3000))
