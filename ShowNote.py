@@ -5,12 +5,9 @@ import time
 from tkinter import TclError
 import struct
 from Music import identifyNote
-from MusicalTheory import getPivots
-from FrequencyMethods import getRealFrequency
-# import os
+from FrequencyMethods import getRealFrequency, getHarmonics
 
 time.sleep(1)
-# clear = lambda: os.system('cls')
 np.set_printoptions(suppress=True) # don't use scientific notation
 
 CHUNK = 1024 # number of data points to read at a time
@@ -29,15 +26,23 @@ while True:
   freq = np.fft.fftfreq(CHUNK,1.0/RATE)
   freq = freq[:int(len(freq)/2)] # keep only first half
   E5 = 10000
-  limitFFT = max([np.max(fft)/90, 3.0* E5])
-  limitFFT = np.max(fft) * 0.3
+  limitFFT = max([np.max(fft)*0.3, 3.0* E5])
 
   freqsPeak = freq[np.where(fft>=limitFFT)]
   fftsPeak = fft[np.where(fft>=limitFFT)]
   
   if(len(freqsPeak) > 0):
-    print(len(freqsPeak))
-    print("%.4f" % getRealFrequency(freqsPeak,fftsPeak))
+    Harmonics = getHarmonics(freqsPeak,fftsPeak) 
+    NOTES = []
+    for Harmonic in Harmonics:
+      FREQS = Harmonic[0]
+      AMPLS = Harmonic[1]
+      FREQ_REAL = getRealFrequency(FREQS,AMPLS)
+      NOTE= identifyNote(FREQ_REAL)
+      NOTES.append(NOTE)
+      print(FREQS)
+
+    print(list(dict.fromkeys(NOTES)))
     print('______________________________________________________________')
 stream.stop_stream()
 stream.close()
