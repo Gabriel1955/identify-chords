@@ -1,5 +1,27 @@
 import math
 
+def getStringGuitarByFreq(freq):
+  C6 = 82.407
+  C5 = 110
+  C4 = 146.832
+  C3 = 195.998
+  C2 = 246.942
+  C1 = 329.628
+  if freq >= C6 and freq < C5:
+    return 6
+  elif freq >= C5 and freq < C4:
+    return 5
+  elif freq >= C4 and freq < C3:
+    return 4
+  elif freq >= C3 and freq < C2:
+    return 3
+  elif freq >= C2 and freq < C1:
+    return 2
+  elif freq >= C1 and freq < 444:
+    return 1
+  return 0
+
+
 def getNotes0():
   C0 = 16.352
   Db0 = 17.324

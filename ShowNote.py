@@ -4,8 +4,10 @@ import numpy as np
 import time
 from tkinter import TclError
 import struct
-from Music import identifyNote
+from Music import identifyNote, getStringGuitarByFreq
 from FrequencyMethods import getRealFrequency, getHarmonics
+from PlotGuitar import getNewPlot, updatePlot, addNote, show
+# from PlotGuitar import plot
 
 time.sleep(1)
 np.set_printoptions(suppress=True) # don't use scientific notation
@@ -17,7 +19,9 @@ WIDTH = 2
 p=pyaudio.PyAudio() # start the PyAudio class
 stream=p.open(format=p.get_format_from_width(WIDTH),channels=1,rate=RATE,input=True,
               frames_per_buffer=CHUNK) #uses default input 
-              
+
+ax = getNewPlot()              
+
 while True:   
   data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
   # data = data * np.hanning(len(data)) # smooth the FFT by windowing data
@@ -26,12 +30,13 @@ while True:
   freq = np.fft.fftfreq(CHUNK,1.0/RATE)
   freq = freq[:int(len(freq)/2)] # keep only first half
   E5 = 10000
-  limitFFT = max([np.max(fft)*0.3, 3.0* E5])
+  limitFFT = max([np.max(fft)*0.5, 3.0* E5])
 
   freqsPeak = freq[np.where(fft>=limitFFT)]
   fftsPeak = fft[np.where(fft>=limitFFT)]
   
   if(len(freqsPeak) > 0):
+    updatePlot(ax)
     Harmonics = getHarmonics(freqsPeak,fftsPeak) 
     NOTES = []
     for Harmonic in Harmonics:
@@ -41,9 +46,12 @@ while True:
       NOTE= identifyNote(FREQ_REAL)
       NOTES.append(NOTE)
       print(FREQS)
-
-    print(list(dict.fromkeys(NOTES)))
+      if NOTE != 0 and NOTE != '0':
+        stringGuitar = getStringGuitarByFreq(FREQ_REAL)
+        addNote(NOTE,stringGuitar,ax)
+    # print(list(dict.fromkeys(NOTES)))
     print('______________________________________________________________')
+    show()
 stream.stop_stream()
 stream.close()
 p.terminate()

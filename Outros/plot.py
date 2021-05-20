@@ -17,5 +17,4 @@ def update(frame):
     return line,
 
 animation = FuncAnimation(figure, update, interval=200)
-
 pyplot.show()
