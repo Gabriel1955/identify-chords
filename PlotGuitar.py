@@ -7,13 +7,17 @@ def getValueNote(note):
     value = [1,2,3,4,5,6,7,8,9,10,11,12,13]
     return value[notes.index(note)]
 
+
+
 def addNote(note, stringGuitar,ax):
     if stringGuitar < 1 or stringGuitar > 6:
         return -1
     stringsGuitarNotes = ['E', 'B', 'G', 'D', 'A', 'E']
     stringGuitarNote = stringsGuitarNotes[stringGuitar-1]
-    
-    interval = getValueNote(note)-getValueNote(stringGuitarNote)
+    try:
+        interval = getValueNote(note)-getValueNote(stringGuitarNote)
+    except ValueError:
+        return -1
     deslocamentoPlot = 0.5
    # if stringGuitarNote != note:
     #    deslocamentoPlot = interval/(2*interval)
@@ -51,8 +55,31 @@ def show():
     plt.draw()
     plt.pause(0.000000000000001)
 
+def printChordByArrayChord(arrayChord,ax):
+    count = 0
+    while count < len(arrayChord):
+        addNote(arrayChord[count],count+1,ax)
+        count = count + 1
+
+# def printChord(ax):
+#     return
+
+# def printChordC(ax):
+#     addNote("E", 1, ax)
+#     addNote("C", 2, ax)
+#     addNote("G", 3, ax)
+#     addNote("E", 4, ax)
+#     addNote("C", 5, ax)
+# def printChordD(ax):
+#     addNote("F#", 1, ax)
+#     addNote("D", 2, ax)
+#     addNote("A", 3, ax)
+#     addNote("D", 4, ax)
+
+
+
 # ax = getNewPlot()
 # updatePlot(ax)
-# addNote('C#',1,ax)
+# printChordD(ax)
 # show()
 

@@ -31,3 +31,4 @@ def getHarmonics(freqs, ampls):
         COUNT = COUNT + 1
     Harmonics.append((BufferFreqs,BufferAmpls))
     return Harmonics
+

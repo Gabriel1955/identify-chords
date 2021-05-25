@@ -4,9 +4,9 @@ import numpy as np
 import time
 from tkinter import TclError
 import struct
-from Music import identifyNote, getStringGuitarByFreq
+from Music import identifyNote, getStringGuitarByFreq, getArrayChordByFreqs
 from FrequencyMethods import getRealFrequency, getHarmonics
-from PlotGuitar import getNewPlot, updatePlot, addNote, show
+from PlotGuitar import getNewPlot, updatePlot, addNote, show, printChordByArrayChord
 # from PlotGuitar import plot
 
 time.sleep(1)
@@ -29,35 +29,35 @@ while True:
   fft = fft[:int(len(fft)/2)] # keep only first half
   freq = np.fft.fftfreq(CHUNK,1.0/RATE)
   freq = freq[:int(len(freq)/2)] # keep only first half
+  
   E5 = 10000
-  limitFFT = max([np.max(fft)*0.5, 3.0* E5])
+  limitFFT = max([np.max(fft)*0.3, 3.0* E5])
 
   freqsPeak = freq[np.where(fft>=limitFFT)]
   fftsPeak = fft[np.where(fft>=limitFFT)]
 
   if(len(freqsPeak) > 0):
-    # updatePlot(ax)
+    # print(freqsPeak)
+    updatePlot(ax)
     Harmonics = getHarmonics(freqsPeak,fftsPeak) 
     NOTES = []
+    FREQS_CHORD = []
     for Harmonic in Harmonics:
       FREQS = Harmonic[0]
       AMPLS = Harmonic[1]
       FREQ_REAL = getRealFrequency(FREQS,AMPLS)
-      # print(FREQ_REAL)
-      #error tupla for return
       NOTE = identifyNote(FREQ_REAL)
-      # print(NOTE)
       FREQ = NOTE[1]
       NOTE = NOTE[0]
       NOTES.append(NOTE)
-      # print(NOTE[0])
-      # print(FREQ)
-      if NOTE != 0 and NOTE != '0':
-        stringGuitar = getStringGuitarByFreq(FREQ_REAL)
-        # addNote(NOTE,stringGuitar,ax)
-    # print(list(dict.fromkeys(NOTES)))
+      FREQS_CHORD.append(FREQ)
+    if len(FREQS_CHORD) > 3:
+      print(FREQS_CHORD)
+      arrayChord = getArrayChordByFreqs(FREQS_CHORD)
+      print(arrayChord)
+      printChordByArrayChord(arrayChord,ax)
     print('______________________________________________________________')
-    # show()
+    show()
 stream.stop_stream()
 stream.close()
 p.terminate()
