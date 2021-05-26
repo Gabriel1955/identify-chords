@@ -64,6 +64,8 @@ def MinDiffBetweenTwoNotesByFreq(freq):
 def identifyNote(freq):
   if freq < 33:
     return -1, -1
+  if freq < 80:
+    return identifyNote(freq*2)
   notes0 = getNotes0()
   notesName= ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"]
   octave = identify8(freq)
@@ -88,36 +90,7 @@ def identifyNote(freq):
   return NOTE, FREQ
 
 #identificar acordes
-E2 = 82.408
-G2 = 98
-A2 = 110
-B2 = 123.472
-C3 = 130.816
-D3 = 146.832
-E3 = 164.816
-G3 = 196
-Ab3 = 207.656
-A3 = 220
-B3 = 246.944
-C4 = 261.632
-Db4 = 277.184
-D4 = 293.664
-E4 = 329.632
-F4 = 349.232
-Gb4 = 370
-G4 = 392
-A4 = 440
-Chord_C =  [C3,E3,G3,C4,E4]
-Chord_D =  [D3,A3,D4,Gb4]
-Chord_E =  [E2,B2,E3,Ab3,B3,E4]
-Chord_G =  [G2,B2,E3,G3,D4,G4]
-Chord_A =  [A2,E3,A3,Db4,E4]
-Chord_Am = [A2,E3,A3,C4,E4]
-Chord_Em = [E2,B2,E3,G3,B3,E4]
-Chord_Dm = [D3,A3,D4,F4]
 
-
-Chords = [Chord_C, Chord_D,Chord_E,Chord_G,Chord_A,Chord_Am,Chord_Em, Chord_Dm]
 
 def identifyChord(freqs):
   # print("identify")
@@ -127,7 +100,7 @@ def identifyChord(freqs):
     count = 0
     chord = chord0
     # print("chord 0")
-    while count < 1:
+    while count < 12:
       # print(chord)
       CurrentPercentage = getPercentageChord(freqs,chord)
       # print(CurrentPercentage)
@@ -135,7 +108,7 @@ def identifyChord(freqs):
         Percentage = CurrentPercentage
         chordIdentifed = chord
         # print("new chord")
-    # print(chordIdentifed)
+        # print(chordIdentifed)
       chord = nextChord(chord)
       count = count + 1
   return chordIdentifed
@@ -161,7 +134,6 @@ def getArrayChordByFreqs(freqs):
   chord = identifyChord(freqs)
   # print(chord)
   return list(map(getNoteByFreq,chord))[::-1]
-
 
 # print(getArrayChordByFreqs([130,196,220]))
 # print(identifyNote(123.472))
@@ -206,3 +178,36 @@ def nextChord(chord):
 # print("chord final")
 # print(ch)
 # getPercentageChord([58.27, 130.816, 164.816, 196.0, 329.632, 392.0, 659.264],Chord_C)
+# print(getArrayChordByFreqs([130.816, 196.0, 392.0]))
+# print(identifyNote(65.408))
+E2 = 82.408
+G2 = 98
+A2 = 110
+B2 = 123.472
+C3 = 130.816
+D3 = 146.832
+E3 = 164.816
+G3 = 196
+Ab3 = 207.656
+A3 = 220
+B3 = 246.944
+C4 = 261.632
+Db4 = 277.184
+D4 = 293.664
+E4 = 329.632
+F4 = 349.232
+Gb4 = 370
+G4 = 392
+A4 = 440
+Chord_C =  [C3,E3,G3,C4,E4]
+Chord_D =  [D3,A3,D4,Gb4]
+Chord_E =  [E2,B2,E3,Ab3,B3,E4]
+Chord_F = nextChord(Chord_E)
+Chord_G =  [G2,B2,D3,G3,D4,G4]
+Chord_A =  [A2,E3,A3,Db4,E4]
+Chord_Am = [A2,E3,A3,C4,E4]
+Chord_Em = [E2,B2,E3,G3,B3,E4]
+Chord_Dm = [D3,A3,D4,F4]
+
+# 65.408, 196.0, 392.0
+Chords = [Chord_C, Chord_D,Chord_E,Chord_G,Chord_A,Chord_Am,Chord_Em, Chord_Dm]

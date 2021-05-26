@@ -52,9 +52,10 @@ while True:
       NOTES.append(NOTE)
       FREQS_CHORD.append(FREQ)
     if len(FREQS_CHORD) > 2:
-      print(FREQS_CHORD)
+      # print(FREQS_CHORD)
       arrayChord = getArrayChordByFreqs(FREQS_CHORD)
-      print(arrayChord)
+      # print(arrayChord)
+      print(arrayChord[len(arrayChord)-1])
       # printChordByArrayChord(arrayChord,ax)
     print('______________________________________________________________')
     # show()
