@@ -20,7 +20,7 @@ p=pyaudio.PyAudio() # start the PyAudio class
 stream=p.open(format=p.get_format_from_width(WIDTH),channels=1,rate=RATE,input=True,
               frames_per_buffer=CHUNK) #uses default input 
 
-ax = getNewPlot()              
+# ax = getNewPlot()              
 
 while True:   
   data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
@@ -38,7 +38,7 @@ while True:
 
   if(len(freqsPeak) > 0):
     # print(freqsPeak)
-    updatePlot(ax)
+    # updatePlot(ax)
     Harmonics = getHarmonics(freqsPeak,fftsPeak) 
     NOTES = []
     FREQS_CHORD = []
@@ -51,13 +51,13 @@ while True:
       NOTE = NOTE[0]
       NOTES.append(NOTE)
       FREQS_CHORD.append(FREQ)
-    if len(FREQS_CHORD) > 3:
+    if len(FREQS_CHORD) > 2:
       print(FREQS_CHORD)
       arrayChord = getArrayChordByFreqs(FREQS_CHORD)
       print(arrayChord)
-      printChordByArrayChord(arrayChord,ax)
+      # printChordByArrayChord(arrayChord,ax)
     print('______________________________________________________________')
-    show()
+    # show()
 stream.stop_stream()
 stream.close()
 p.terminate()

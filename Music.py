@@ -45,7 +45,7 @@ def myRound(value):
 
 def identify8(freq):
   if freq < 16.352:
-    return 
+    return 0
   # print(freq/16.352)
   # print(myRound(freq/16.352))
   # print(math.log(myRound(freq/16.352),2))
@@ -120,20 +120,21 @@ Chord_Dm = [D3,A3,D4,F4]
 Chords = [Chord_C, Chord_D,Chord_E,Chord_G,Chord_A,Chord_Am,Chord_Em, Chord_Dm]
 
 def identifyChord(freqs):
-  # print(freqs)
+  # print("identify")
   Percentage = 0
   chordIdentifed = [0]
   for chord0 in Chords:
     count = 0
     chord = chord0
     # print("chord 0")
-    while count < 12:
+    while count < 1:
       # print(chord)
       CurrentPercentage = getPercentageChord(freqs,chord)
       # print(CurrentPercentage)
       if CurrentPercentage > Percentage:
         Percentage = CurrentPercentage
         chordIdentifed = chord
+        # print("new chord")
     # print(chordIdentifed)
       chord = nextChord(chord)
       count = count + 1
@@ -142,10 +143,13 @@ def identifyChord(freqs):
 def getPercentageChord(freqs, chord):
   hits = 0
   for freq in freqs:
+    # print(freq)
     try:
-      chord.index(int(freq))
+      chord.index(freq)
       hits = hits + 1
+      # print("hit")
     except ValueError:
+      # print("loss")
       continue
   return hits/len(chord)
 
@@ -201,3 +205,4 @@ def nextChord(chord):
 # ch = identifyChord([110, 207, 330, 349])
 # print("chord final")
 # print(ch)
+# getPercentageChord([58.27, 130.816, 164.816, 196.0, 329.632, 392.0, 659.264],Chord_C)
