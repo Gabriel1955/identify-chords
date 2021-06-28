@@ -22,7 +22,12 @@ def getHarmonics(freqs, ampls):
     BufferAmpls = [ampls[0]]
     while COUNT < SIZE_FREQS:
         DiffBetweenTwoHarmonics = MinDiffBetweenTwoNotesByFreq(freqs[COUNT])
-        if(freqs[COUNT] - freqs[COUNT-1] > DiffBetweenTwoHarmonics):
+        # print(freqs[COUNT])
+        # print(freqs[COUNT-1])
+        # print(DiffBetweenTwoHarmonics)
+        # print("----------")
+        if(abs(freqs[COUNT] - freqs[COUNT-1]) > DiffBetweenTwoHarmonics):
+            # print("zerou")
             Harmonics.append((BufferFreqs,BufferAmpls))
             BufferFreqs = []
             BufferAmpls = []
